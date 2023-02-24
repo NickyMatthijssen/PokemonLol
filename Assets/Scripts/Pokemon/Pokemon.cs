@@ -4,15 +4,14 @@ using UnityEngine;
 [Serializable]
 public class Pokemon
 {
+    [Header("Base pokemon information")]
     public PokemonSO Species;
-    
     [Range(1, 100)]
     public int level = 100;
-
     public string nickname;
-
     public float currentHp;
 
+    [Header("Stats")]
     public int hp;
     public int attack;
     public int defence;
@@ -20,6 +19,7 @@ public class Pokemon
     public int specialDefence;
     public int speed;
 
+    [Header("Individual Values")]
     public int hpIv = 31;
     public int attackIv = 31;
     public int defenceIv = 31;
@@ -27,6 +27,7 @@ public class Pokemon
     public int specialDefenceIv = 31;
     public int speedIv = 31;
     
+    [Header("Effort Values")]
     public int hpEv = 31;
     public int attackEv = 31;
     public int defenceEv = 31;
@@ -34,6 +35,7 @@ public class Pokemon
     public int specialDefenceEv = 31;
     public int speedEv = 31;
 
+    [Header("Current moves")]
     public MoveSO[] moves;
 
     public void Init()
