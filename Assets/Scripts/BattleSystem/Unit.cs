@@ -1,13 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Pokemon;
 
 namespace BattleSystem2
 {
     public class Unit : MonoBehaviour
     {
-        [SerializeField] private Pokemon pokemon;
-        public Pokemon Pokemon => pokemon;
+        [SerializeField] private Pokemon.Pokemon pokemon;
+        public Pokemon.Pokemon Pokemon => pokemon;
         
         [SerializeField] private NonVolatileStatus status;
         public NonVolatileStatus Status => status;
@@ -17,6 +18,9 @@ namespace BattleSystem2
 
         [SerializeField] private VolatileBattleStatus[] volatileBattleStatusList;
         public VolatileBattleStatus[] VolatileBattleStatusList => volatileBattleStatusList;
+
+        [SerializeField] private bool belongsToPlayer;
+        public bool BelongsToPlayer => belongsToPlayer;
         
         // Start is called before the first frame update
         void Start()
