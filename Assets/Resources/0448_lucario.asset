@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8db763af40a6458fbc0b34f11805cd50, type: 3}
+  m_Name: 0448_lucario
+  m_EditorClassIdentifier: 
+  pokemonName: Lucario
+  hitPoints: 70
+  attack: 110
+  defence: 70
+  specialAttack: 115
+  specialDefence: 70
+  speed: 90
+  learnableMoves: []
+  primaryType: 2
+  secondaryType: 16
+  model: {fileID: 919132149155446097, guid: c4d0f33172b53d746b4640ca701f695b, type: 3}

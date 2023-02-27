@@ -1,4 +1,7 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using BattleSystem2;
 using UnityEngine;
 using Type = BattleSystem2.Type;
 
@@ -34,6 +37,12 @@ namespace Moves
 
         [SerializeField] private MoveCategory category;
         public MoveCategory Category => category;
+
+        [SerializeField] private int speedPriority;
+        public int SpeedPriority => speedPriority;
+
+        [SerializeField] private MoveTarget target;
+        public MoveTarget Target => target;
     }
 
     public enum MoveTag
@@ -52,6 +61,7 @@ namespace Moves
         IsAffectedByGravity,
         ReflectedByMagicCoat,
         BlockedByProtect,
+        DefrostsOnUse
     }
 
     public enum MoveCategory
@@ -59,5 +69,13 @@ namespace Moves
         Physical,
         Special,
         Other
+    }
+
+    public enum MoveTarget
+    {
+        Self,
+        SelfOrAlly,
+        AllAdjacentFoes,
+        Foe,
     }
 }

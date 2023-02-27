@@ -808,7 +808,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 761605292262850633}
-  - component: {fileID: 761605292262850632}
+  - component: {fileID: 5742883505592455222}
   m_Layer: 5
   m_Name: BattleHud
   m_TagString: Untagged
@@ -840,7 +840,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 400, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &761605292262850632
+--- !u!114 &5742883505592455222
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -849,36 +849,34 @@ MonoBehaviour:
   m_GameObject: {fileID: 761605292262850634}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9d99411159c8c774ba39236e1305412a, type: 3}
+  m_Script: {fileID: 11500000, guid: 480dc89dc3e5f324aa2aad8d94bb21c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   pokemon:
-    Species: {fileID: 0}
-    level: 100
+    species: {fileID: 0}
     nickname: 
-    currentHp: 0
-    hp: 0
+    level: 0
+    hitPoints: 0
     attack: 0
     defence: 0
     specialAttack: 0
     specialDefence: 0
     speed: 0
-    hpIv: 31
-    attackIv: 31
-    defenceIv: 31
-    specialAttackIv: 31
-    specialDefenceIv: 31
-    speedIv: 31
-    hpEv: 31
-    attackEv: 31
-    defenceEv: 31
-    specialAttackEv: 31
-    specialDefenceEv: 31
-    speedEv: 31
-    moves: []
-  nameText: {fileID: 761605291734489809}
-  levelText: {fileID: 761605291941039305}
-  healthSlider: {fileID: 761605291993524003}
+    ivHitPoints: 0
+    ivAttack: 0
+    ivDefence: 0
+    ivSpecialAttack: 0
+    ivSpecialDefence: 0
+    ivSpeed: 0
+    evHitPoints: 0
+    evAttack: 0
+    evDefence: 0
+    evSpecialAttack: 0
+    evSpecialDefence: 0
+    evSpeed: 0
+  pokemonName: {fileID: 761605291734489809}
+  pokemonLevel: {fileID: 761605291941039305}
+  pokemonHitPoints: {fileID: 761605291993524003}
 --- !u!1 &761605292287839922
 GameObject:
   m_ObjectHideFlags: 0

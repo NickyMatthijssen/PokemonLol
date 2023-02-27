@@ -1,4 +1,3 @@
-using System.Linq;
 using Moves;
 using UnityEngine;
 
@@ -10,6 +9,9 @@ namespace BattleSystem2
         private Unit _target;
         private BattleSystem _battleSystem;
         private Moves.MoveSO _move;
+
+        private bool _isCritical;
+        public bool IsCritical => _isCritical;
         
         public DamageCalculator(Moves.MoveSO move, Unit attacking, Unit target, BattleSystem battleSystem)
         {
@@ -22,10 +24,10 @@ namespace BattleSystem2
         public int Calculate()
         {
             var baseDamage = Mathf.FloorToInt(2 * _attacking.Pokemon.Level / 5 + 2);
-            var fullDamage = Mathf.FloorToInt(baseDamage * _move.Power * GetAttack() / GetDefence()) / 50 + 2;
+            var fullDamage = Mathf.FloorToInt((float) baseDamage * _move.Power * GetAttack() / GetDefence()) / 50 + 2;
 
             var modifiedDamage = fullDamage * GetTargets() * GetWeather() * GetBadge() * GetCritical() * GetRandom() *
-                                 GetStab() * GetType() * GetBurn() * GetOther();
+                                 GetStab() * GetType(_target.Pokemon.Species.PrimaryType) * GetType(_target.Pokemon.Species.SecondaryType) * GetBurn() * GetOther();
 
             return Mathf.FloorToInt(modifiedDamage);
         }
@@ -57,17 +59,17 @@ namespace BattleSystem2
 
         private float GetWeather()
         {
-            // var weather = _battleSystem.weather;
+            var weather = _battleSystem.Weather;
 
-            // if (weather == Weather.Rain && _move.type == "water" || weather == Weather.Sunny && _move.type == "fire")
-            // {
-            //     return 1.5f;
-            // }
-            //
-            // if (weather == Weather.Rain && _move.type == "fire" || weather == Weather.Sunny && _move.type == "water")
-            // {
-            //     return 0.5f;
-            // }
+            if (weather == Weather.Rain && _move.Type == Type.Water || weather == Weather.Sunny && _move.Type == Type.Fire)
+            {
+                return 1.5f;
+            }
+            
+            if (weather == Weather.Rain && _move.Type == Type.Fire || weather == Weather.Sunny && _move.Type == Type.Water)
+            {
+                return 0.5f;
+            }
 
             return 1;
         }
@@ -81,10 +83,9 @@ namespace BattleSystem2
 
         private float GetCritical()
         {
-            // TODO:: Someday implement the correct critical hit method;
-
             if (Random.Range(0, 100) <= 6.25f)
             {
+                _isCritical = true;
                 return 1.5f;
             }
             
@@ -101,27 +102,37 @@ namespace BattleSystem2
         {
             // TODO:: Someday add check if attacker has adaptability to return 2.
 
-            // if (_attacking.Pokemon.Species.types.Any(t => t == _move.Type))
-            // {
-            //     return 1.5f;
-            // }
+            var species = _attacking.Pokemon.Species;
+            if (species.PrimaryType == _move.Type || species.SecondaryType == _move.Type)
+            {
+                return 1.5f;
+            }
 
             return 1;
         }
 
-        private int GetType() => 1;
+        private float GetType(Type type)
+        {
+            var map = new TypeMap();
+            return map.CheckMultiplier(type, _move.Type);
+        }
 
-        private int GetBurn()
+        private float GetBurn()
         {
             // TODO:: Check if ability is guts or if the move used is Facade to skip check and return 1 directly.
             
-            // TODO:: Add status to unit to check if they are burned. If burned return 0.5 else 1.
+            if (_attacking.Status == NonVolatileStatus.Burn && _move.Id != MoveKeys.Facade)
+            {
+                return 0.5f;
+            }
+            
             return 1;
         }
 
         private int GetOther()
         {
             // TODO:: Add other checks when items, abilities, etc. are added in.
+            
             
             return 1;
         }

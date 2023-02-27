@@ -1,4 +1,7 @@
-﻿namespace BattleSystem2
+﻿using System.Collections.Generic;
+using Unity.Mathematics;
+
+namespace BattleSystem2
 {
     public enum NonVolatileStatus
     {
@@ -67,6 +70,7 @@
 
     public enum Type
     {
+        None = -1,
         Normal,
         Fire,
         Fighting,
@@ -112,18 +116,40 @@
             /** FAI **/ new []{ 1,    0.5f, 1,    1,    1,    1,    2,    0.5f, 1,    1,    1,    1,    1,     1,    2,    2,    0.5f, 0 },
         };
 
-        public float CheckMultiplier(Type? targetType, Type moveType)
+        public float CheckMultiplier(Type targetType, Type moveType)
         {
-            if (targetType == null) return 1;
+            if (targetType == Type.None) return 1;
 
             return _map[(int) targetType][(int) moveType];
         }
-        
-        // public float CheckMultiplier(Type?[] targetType, Type moveType)
-        // {
-        //     if (targetType == null) return 1;
-        //
-        //     return _map[(int) targetType][(int) moveType];
-        // }
+    }
+
+    public enum Nature
+    {
+        Hardy,
+        Lonely,
+        Brave,
+        Adamant,
+        Naughty,
+        Bold,
+        Docile,
+        Relaxed,
+        Impish,
+        Lax,
+        Timid,
+        Hasty,
+        Serious,
+        Jolly,
+        Naive,
+        Modest,
+        Mild,
+        Quiet,
+        Bashful,
+        Rash,
+        Calm,
+        Gentle,
+        Sassy,
+        Careful,
+        Quirky
     }
 }
