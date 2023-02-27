@@ -29,8 +29,10 @@
         [SerializeField] private GameObject playerHudPosition;
         [SerializeField] private GameObject opponentHudPosition;
         [SerializeField] private PokemonHud hudPrefab;
+        [SerializeField] private UiStateManager uiManager;
 
         [SerializeField] private Party playerParty;
+        public Party PlayerParty => playerParty;
         [SerializeField] private Party opponentParty;
 
         [SerializeField] private DialogueManager dialogueManager;
@@ -80,7 +82,7 @@
 
         private IEnumerator InitialAbilities()
         {
-            //  
+            // 
             
             yield return null;
         }
@@ -95,7 +97,6 @@
                 while (unit.SelectedMoved == null)
                 {
                     yield return new WaitForFixedUpdate();
-                    
                 }
             }
 
@@ -133,15 +134,18 @@
                 
                 // Accuracy check.
                 
-                // if accuract check fails show dialogue and continue loop.
+                // if accuracy check fails show dialogue and continue loop.
 
                 // Calculate damage
                 var damage = new DamageCalculator(unit.SelectedMoved, unit, unit.Targets.First(), this).Calculate();
-                
+
                 // Add super effective, not very effective or target was unaffected.
                 unit.Targets.First().Pokemon.TakeDamage(damage);
                 
+                // IF pokemon fainted handle switch.
+
                 // Handle move effects.
+                
             }
 
             state = BattleState.MoveSelection;
@@ -158,21 +162,20 @@
 
             currentUnit = PlayerUnits.First();
 
-            if (playerParty.PokemonList.Length < 1 || playerParty.PokemonList.Length < 1)
+            if (playerParty.IsWhitedOut || opponentParty.IsWhitedOut)
             {
                 state = BattleState.Finished;
-            }
-            else
-            {
-                state = BattleState.MoveSelection;
+                yield break;
             }
 
+            state = BattleState.MoveSelection;
+            
             yield return null;
         }
 
         private IEnumerator EndBattle()
         {
-            if (playerParty.PokemonList.Length < 1)
+            if (playerParty.IsWhitedOut)
             {
                 yield return dialogueManager.PlayDialogue("You lost the battle!");
             }
@@ -190,8 +193,12 @@
         {
             var station = isPlayer ? playerStation : opponentStation;
 
-            var unit = station.AddComponent<Unit>();
+            var unitObject = new GameObject();
+            var unit = unitObject.AddComponent<Unit>();
             unit.Initialize(pokemon, isPlayer);
+            unit.transform.parent = station.transform;
+            unit.transform.position = Vector3.zero;
+            unit.transform.localScale = new Vector3(1, 1, 1);
 
             var hudPosition = isPlayer ? playerHudPosition : opponentHudPosition;
             var hud = Instantiate(hudPrefab, hudPosition.transform);
@@ -237,6 +244,7 @@
         MoveSelection,
         Waiting,
         Combat,
+        Fainted,
         Finished
     }
 

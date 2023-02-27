@@ -14,6 +14,11 @@ namespace BattleSystem
         {
             switch (battleSystem.State)
             {
+                case BattleState.Fainted:
+                    var s = actionSelection.GetComponent<ActionStateManager>();
+                    s.SetSwitchState();
+                    ActivateActionSelection();
+                    break;
                 case BattleState.Initializing:
                     HideUI();
                     break;

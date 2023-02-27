@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Monsters;
 using UnityEngine;
 
@@ -10,9 +11,10 @@ namespace BattleSystem
         [SerializeField] private Pokemon[] pokemonList;
         public Pokemon[] PokemonList => pokemonList;
 
-        public Party()
-        {
-            pokemonList = new Pokemon[6];
-        }
+        public Pokemon[] AvailablePokemon => PokemonList.Where(p => p.CurrentHitPoints > 0).ToArray();
+
+        public bool HasAvailablePokemon => AvailablePokemon.Length > 0;
+
+        public bool IsWhitedOut => !HasAvailablePokemon;
     }
 }

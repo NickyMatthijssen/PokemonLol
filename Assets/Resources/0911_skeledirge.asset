@@ -21,5 +21,5 @@ MonoBehaviour:
   speed: 66
   learnableMoves: []
   primaryType: 1
-  secondaryType: 14
+  secondaryType: 13
   model: {fileID: 919132149155446097, guid: bc7333b88c54e924aa08c19c5bd513eb, type: 3}

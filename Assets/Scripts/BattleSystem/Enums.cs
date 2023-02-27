@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Unity.Mathematics;
+using UnityEngine;
 
 namespace BattleSystem2
 {
@@ -84,8 +85,8 @@ namespace BattleSystem2
         Rock,
         Ice,
         Bug,
-        Dragon,
         Ghost,
+        Dragon,
         Dark,
         Steel,
         Fairy
@@ -120,7 +121,7 @@ namespace BattleSystem2
         {
             if (targetType == Type.None) return 1;
 
-            return _map[(int) targetType][(int) moveType];
+            return _map[(int) moveType][(int) targetType];
         }
     }
 

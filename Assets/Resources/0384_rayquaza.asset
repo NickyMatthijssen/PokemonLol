@@ -20,6 +20,6 @@ MonoBehaviour:
   specialDefence: 90
   speed: 95
   learnableMoves: []
-  primaryType: 13
+  primaryType: 14
   secondaryType: 4
   model: {fileID: 919132149155446097, guid: 97572f5a6778250468af693a5f182983, type: 3}

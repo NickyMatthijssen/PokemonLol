@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 946a92dfe63f46ddb33b4cf5ffb4405f, type: 3}
   m_Name: 0012_body_slam
   m_EditorClassIdentifier: 
-  id: 0
-  moveName: 
-  power: 0
-  accuracy: 0
+  id: 11
+  moveName: Body Slam
+  power: 85
+  accuracy: 100
   type: 0
-  baseCriticalHitRate: 0
-  basePowerPoints: 0
-  tags: 
+  baseCriticalHitRate: 4.17
+  basePowerPoints: 15
+  tags: 0a000000090000000d00000000000000
   category: 0
   speedPriority: 0
-  target: 0
+  target: 3

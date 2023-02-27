@@ -942,6 +942,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1132231875}
+  - component: {fileID: 1132231876}
   m_Layer: 5
   m_Name: Switch
   m_TagString: Untagged
@@ -969,6 +970,20 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1132231876
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1132231874}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17551483ce4f43cbb8e35c26ebba472e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _battleSystem: {fileID: 1575152967}
+  _buttonPrefab: {fileID: 1820363484}
 --- !u!1 &1207385199
 GameObject:
   m_ObjectHideFlags: 0
@@ -1420,6 +1435,7 @@ MonoBehaviour:
   opponentHudPosition: {fileID: 957747871}
   hudPrefab: {fileID: 5742883505592455222, guid: 93e36fd7e69f963438e1177e24830185,
     type: 3}
+  uiManager: {fileID: 872082481}
   playerParty:
     pokemonList:
     - species: {fileID: 11400000, guid: e2a8b8c44d04e7948a733508460b9846, type: 2}
@@ -1427,19 +1443,19 @@ MonoBehaviour:
       nature: 0
       level: 100
       moves:
-      - {fileID: 11400000, guid: 7ef988f68332cd940b18de77cf0e04b2, type: 2}
+      - {fileID: 11400000, guid: 5111a4b31e0129046b32949af5a632b7, type: 2}
       ivHitPoints: 31
       ivAttack: 31
       ivDefence: 31
       ivSpecialAttack: 31
       ivSpecialDefence: 31
       ivSpeed: 31
-      evHitPoints: 76
-      evAttack: 60
-      evDefence: 43
-      evSpecialAttack: 76
-      evSpecialDefence: 81
-      evSpeed: 50
+      evHitPoints: 255
+      evAttack: 255
+      evDefence: 255
+      evSpecialAttack: 255
+      evSpecialDefence: 255
+      evSpeed: 255
     - species: {fileID: 11400000, guid: 284b983b1e9043e4589aba9d37da42ab, type: 2}
       nickname: Star
       nature: 7
@@ -1458,76 +1474,26 @@ MonoBehaviour:
       evSpecialAttack: 33
       evSpecialDefence: 37
       evSpeed: 72
-    - species: {fileID: 0}
-      nickname: 
-      nature: 0
-      level: 0
-      moves: []
-      ivHitPoints: 0
-      ivAttack: 0
-      ivDefence: 0
-      ivSpecialAttack: 0
-      ivSpecialDefence: 0
-      ivSpeed: 0
-      evHitPoints: 0
-      evAttack: 0
-      evDefence: 0
-      evSpecialAttack: 0
-      evSpecialDefence: 0
-      evSpeed: 0
-    - species: {fileID: 0}
-      nickname: 
-      nature: 0
-      level: 0
-      moves: []
-      ivHitPoints: 0
-      ivAttack: 0
-      ivDefence: 0
-      ivSpecialAttack: 0
-      ivSpecialDefence: 0
-      ivSpeed: 0
-      evHitPoints: 0
-      evAttack: 0
-      evDefence: 0
-      evSpecialAttack: 0
-      evSpecialDefence: 0
-      evSpeed: 0
-    - species: {fileID: 0}
-      nickname: 
-      nature: 0
-      level: 0
-      moves: []
-      ivHitPoints: 0
-      ivAttack: 0
-      ivDefence: 0
-      ivSpecialAttack: 0
-      ivSpecialDefence: 0
-      ivSpeed: 0
-      evHitPoints: 0
-      evAttack: 0
-      evDefence: 0
-      evSpecialAttack: 0
-      evSpecialDefence: 0
-      evSpeed: 0
-    - species: {fileID: 0}
-      nickname: 
-      nature: 0
-      level: 0
-      moves: []
-      ivHitPoints: 0
-      ivAttack: 0
-      ivDefence: 0
-      ivSpecialAttack: 0
-      ivSpecialDefence: 0
-      ivSpeed: 0
-      evHitPoints: 0
-      evAttack: 0
-      evDefence: 0
-      evSpecialAttack: 0
-      evSpecialDefence: 0
-      evSpeed: 0
   opponentParty:
     pokemonList:
+    - species: {fileID: 11400000, guid: a2b19983bb132a84e8547f3b26bf18bf, type: 2}
+      nickname: Ninja turtle
+      nature: 13
+      level: 100
+      moves:
+      - {fileID: 11400000, guid: 5111a4b31e0129046b32949af5a632b7, type: 2}
+      ivHitPoints: 31
+      ivAttack: 31
+      ivDefence: 31
+      ivSpecialAttack: 31
+      ivSpecialDefence: 31
+      ivSpeed: 31
+      evHitPoints: 255
+      evAttack: 255
+      evDefence: 255
+      evSpecialAttack: 255
+      evSpecialDefence: 255
+      evSpeed: 255
     - species: {fileID: 11400000, guid: 0b00b66b387941344954cd0ef87d0652, type: 2}
       nickname: 
       nature: 5
@@ -1546,91 +1512,6 @@ MonoBehaviour:
       evSpecialAttack: 46
       evSpecialDefence: 68
       evSpeed: 102
-    - species: {fileID: 0}
-      nickname: 
-      nature: 0
-      level: 0
-      moves: []
-      ivHitPoints: 0
-      ivAttack: 0
-      ivDefence: 0
-      ivSpecialAttack: 0
-      ivSpecialDefence: 0
-      ivSpeed: 0
-      evHitPoints: 0
-      evAttack: 0
-      evDefence: 0
-      evSpecialAttack: 0
-      evSpecialDefence: 0
-      evSpeed: 0
-    - species: {fileID: 0}
-      nickname: 
-      nature: 0
-      level: 0
-      moves: []
-      ivHitPoints: 0
-      ivAttack: 0
-      ivDefence: 0
-      ivSpecialAttack: 0
-      ivSpecialDefence: 0
-      ivSpeed: 0
-      evHitPoints: 0
-      evAttack: 0
-      evDefence: 0
-      evSpecialAttack: 0
-      evSpecialDefence: 0
-      evSpeed: 0
-    - species: {fileID: 0}
-      nickname: 
-      nature: 0
-      level: 0
-      moves: []
-      ivHitPoints: 0
-      ivAttack: 0
-      ivDefence: 0
-      ivSpecialAttack: 0
-      ivSpecialDefence: 0
-      ivSpeed: 0
-      evHitPoints: 0
-      evAttack: 0
-      evDefence: 0
-      evSpecialAttack: 0
-      evSpecialDefence: 0
-      evSpeed: 0
-    - species: {fileID: 0}
-      nickname: 
-      nature: 0
-      level: 0
-      moves: []
-      ivHitPoints: 0
-      ivAttack: 0
-      ivDefence: 0
-      ivSpecialAttack: 0
-      ivSpecialDefence: 0
-      ivSpeed: 0
-      evHitPoints: 0
-      evAttack: 0
-      evDefence: 0
-      evSpecialAttack: 0
-      evSpecialDefence: 0
-      evSpeed: 0
-    - species: {fileID: 0}
-      nickname: 
-      nature: 0
-      level: 0
-      moves: []
-      ivHitPoints: 0
-      ivAttack: 0
-      ivDefence: 0
-      ivSpecialAttack: 0
-      ivSpecialDefence: 0
-      ivSpeed: 0
-      evHitPoints: 0
-      evAttack: 0
-      evDefence: 0
-      evSpecialAttack: 0
-      evSpecialDefence: 0
-      evSpeed: 0
   dialogueManager: {fileID: 1061794982}
   weather: 0
 --- !u!1 &1719066790
