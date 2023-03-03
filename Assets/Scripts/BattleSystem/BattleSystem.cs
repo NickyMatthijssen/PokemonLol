@@ -18,6 +18,8 @@
         public IList<Unit> PlayerUnits => _units.Where(u => u.BelongsToPlayer).ToList();
         public IList<Unit> OpponentUnits => _units.Where(u => !u.BelongsToPlayer).ToList();
 
+        private IList<Unit> _switchedOutUnits = new List<Unit>();
+
         [SerializeField] private Unit currentUnit;
         public Unit CurrentUnit => currentUnit;
 
@@ -39,6 +41,8 @@
 
         [SerializeField] private Weather weather = Weather.Clear;
         public Weather Weather => weather;
+
+        [SerializeField] private BattleType _battleType;
         
         private void Start()
         {
@@ -51,17 +55,14 @@
 
         private void InitializeBattle()
         {
-            // Add units to correct stations.
-            SetupStations(playerParty.PokemonList[0], true);
-            SetupStations(opponentParty.PokemonList[0], false);
+            SetupStation(playerParty, true);
+            SetupStation(opponentParty, false);
 
             currentUnit = PlayerUnits.First();
         }
 
         private IEnumerator BattleLoop()
         {
-            yield return InitialAbilities();
-            
             state = BattleState.MoveSelection;
 
             while (state != BattleState.Finished)
@@ -78,13 +79,6 @@
             }
 
             yield return EndBattle();
-        }
-
-        private IEnumerator InitialAbilities()
-        {
-            // 
-            
-            yield return null;
         }
 
         private IEnumerator ActionSelection()
@@ -127,25 +121,46 @@
 
             foreach (var unit in orderedUnits)
             {
-                // Play attack dialogue
-                yield return dialogueManager.PlayDialogue($"{unit.Pokemon.Nickname} used {unit.SelectedMoved.MoveName} on {unit.Targets.First().Pokemon.Nickname}");
+                if (unit.SelectedMoved == null) continue;
 
-                yield return new WaitForSeconds(2f);
+                yield return dialogueManager.PlayDialogue($"{unit.Pokemon.Nickname} used {unit.SelectedMoved.MoveName}");
                 
                 // Accuracy check.
                 
                 // if accuracy check fails show dialogue and continue loop.
 
-                // Calculate damage
-                var damage = new DamageCalculator(unit.SelectedMoved, unit, unit.Targets.First(), this).Calculate();
+                foreach (var target in unit.Targets)
+                {
+                    var damageCalculator = new DamageCalculator(unit.SelectedMoved, unit, target, this);
+                    var damage = damageCalculator.Calculate();
+                    Debug.Log($"{target.Pokemon.Nickname} {damage.ToString()}");
+                    target.Pokemon.TakeDamage(damage);
 
-                // Add super effective, not very effective or target was unaffected.
-                unit.Targets.First().Pokemon.TakeDamage(damage);
-                
+                    if (damageCalculator.IsCritical)
+                    {
+                        yield return dialogueManager.PlayDialogue("It's a critical hit!");
+                    }
+                    
+                    // Add super effective, not very effective or target was unaffected.
+                }
+
                 // IF pokemon fainted handle switch.
+                // Loop until pokemon was selected
+                // In loop set action state to pokemonn selection.
+                // If pokemon selected break loop and continue
+                // while ()
+                // {
+                if (unit.Targets.First().Pokemon.CurrentHitPoints < 1)
+                {
+                    SwitchPokemon(unit.Targets.First().Pokemon, opponentParty.AvailablePokemon.First());
+                }
+                
+                
+                //     yield return new WaitForFixedUpdate();
+                // }
 
                 // Handle move effects.
-                
+
             }
 
             state = BattleState.MoveSelection;
@@ -189,22 +204,63 @@
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
 
+        private void SetupStation(Party party, bool isPlayer)
+        {
+            var station = isPlayer ? playerStation : opponentStation;
+            
+            for (int i = 1; i <= (int) _battleType; i++)
+            {
+                var pokemon = party.AvailablePokemon[i - 1];
+                
+                if (pokemon == null) break;
+
+                var hudPosition = isPlayer ? playerHudPosition : opponentHudPosition;
+                var hud = Instantiate(hudPrefab, hudPosition.transform);
+                hud.Initialize(pokemon);
+                
+                // TODO:: Could use more optimalization...
+                var unitObject = new GameObject();
+                var unit = unitObject.AddComponent<Unit>();
+                unit.Initialize(pokemon, isPlayer, hud, this);
+                unitObject.transform.position = station.transform.position + Vector3.forward * 10 * (i - 1);
+                unitObject.transform.SetParent(station.transform);
+                unitObject.transform.localRotation = Quaternion.identity;
+                unitObject.transform.localScale = new Vector3(1, 1, 1);
+                
+                _units.Add(unit);
+            }
+        }
+        
         private void SetupStations(Pokemon pokemon, bool isPlayer)
         {
             var station = isPlayer ? playerStation : opponentStation;
 
+            var hudPosition = isPlayer ? playerHudPosition : opponentHudPosition;
+            var hud = Instantiate(hudPrefab, hudPosition.transform);
+            hud.Initialize(pokemon);
+            
             var unitObject = new GameObject();
             var unit = unitObject.AddComponent<Unit>();
-            unit.Initialize(pokemon, isPlayer);
+            unit.Initialize(pokemon, isPlayer, hud, this);
             unit.transform.parent = station.transform;
             unit.transform.position = Vector3.zero;
             unit.transform.localScale = new Vector3(1, 1, 1);
 
-            var hudPosition = isPlayer ? playerHudPosition : opponentHudPosition;
-            var hud = Instantiate(hudPrefab, hudPosition.transform);
-            hud.Initialize(pokemon);
+           
 
             _units.Add(unit);
+        }
+
+        private void SwitchPokemon(Pokemon switchingOut, Pokemon switchingIn)
+        {
+            var switchingOutUnit = _units.First(u => u.Pokemon == switchingOut);
+
+            switchingOutUnit.SetupPokemon(switchingIn);
+        }
+
+        public void SwitchPokemon(Pokemon pokemon)
+        {
+            currentUnit.SetupPokemon(pokemon);
         }
     }
 
@@ -250,9 +306,8 @@
 
     public enum BattleType
     {
-        Single,
-        Double,
-        Triple
+        Single = 1,
+        Double = 2
     }
 
     public enum Weather

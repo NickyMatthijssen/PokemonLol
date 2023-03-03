@@ -41,6 +41,9 @@ namespace Monsters
 
         [SerializeField] private GameObject model;
         public GameObject Model => model;
+
+        [SerializeField] private Sprite sprite;
+        public Sprite Sprite => sprite;
     }
 
     [Serializable]

@@ -1,4 +1,5 @@
 ﻿using System;
+using BattleSystem2;
 using UnityEngine;
 
 namespace BattleSystem
@@ -11,6 +12,10 @@ namespace BattleSystem
         [SerializeField] private GameObject moveSelection;
         [SerializeField] private GameObject switchSelection;
 
+        [SerializeField] private BattleSystem2.BattleSystem battleSystem;
+        [SerializeField] private Unit unit;
+        
+        
         private void Update()
         {
             switch (state)
@@ -26,6 +31,11 @@ namespace BattleSystem
                     ActivateDefaultView();
                     break;
             }
+
+            if (battleSystem.CurrentUnit == unit) return;
+
+            unit = battleSystem.CurrentUnit;
+            ActivateDefaultView();
         }
 
         private void ActivateAttackView()

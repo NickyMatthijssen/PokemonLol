@@ -16,5 +16,15 @@ namespace BattleSystem
         public bool HasAvailablePokemon => AvailablePokemon.Length > 0;
 
         public bool IsWhitedOut => !HasAvailablePokemon;
+
+        public void StartBattle()
+        {
+            
+        }
+        
+        public void SwitchPokemon()
+        {
+            
+        }
     }
 }

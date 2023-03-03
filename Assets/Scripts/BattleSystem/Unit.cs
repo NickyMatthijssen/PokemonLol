@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using BattleSystem;
 using JetBrains.Annotations;
 using Monsters;
 using Moves;
@@ -33,12 +34,45 @@ namespace BattleSystem2
 
         public IList<Unit> Targets { get; } = new List<Unit>();
 
-        public void Initialize(Pokemon pokemon, bool belongsToPlayer)
-        {
-            this.pokemon = pokemon;
-            this.belongsToPlayer = belongsToPlayer;
+        private PokemonHud _hud;
+        private GameObject _model;
 
-            Instantiate(pokemon.Species.Model, transform);
+        public void Initialize(Pokemon pokemon, bool belongsToPlayer, PokemonHud hud, BattleSystem battleSystem)
+        {
+            this.belongsToPlayer = belongsToPlayer;
+            _hud = hud;
+
+            SetupPokemon(pokemon);
+        }
+
+        public void SetupPokemon([CanBeNull] Pokemon pokemon)
+        {
+            if (pokemon == null)
+            {
+                ClearPokemon();
+                return;
+            }
+            
+            _hud.Initialize(pokemon);
+            this.pokemon = pokemon;
+
+            if (_model == null)
+            { 
+                _model = Instantiate(pokemon.Species.Model, transform);
+                _model.AddComponent<Rigidbody>();
+                _model.AddComponent<CapsuleCollider>();
+            }
+            else
+            {
+                var oldModel = _model.GetComponentInChildren<Transform>();
+                Destroy(oldModel.gameObject);
+                _model = Instantiate(pokemon.Species.Model, transform);
+            }
+        }
+
+        public void ClearPokemon()
+        {
+            
         }
 
         public void SelectMove(MoveSO move) => selectedMove = move;
@@ -46,5 +80,11 @@ namespace BattleSystem2
         public void SelectTarget(Unit[] units) => selectedTargets = units;
 
         public void ClearMove() => selectedMove = null;
+    }
+
+    public enum ActionType
+    {
+        Move,
+        Switch
     }
 }
